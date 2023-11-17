@@ -19,25 +19,24 @@ void selectionSort(std::string arr[], int n) {
     }
 }
 
-
-
-// Функция для загрузки имен из файла
-void loadNamesFromFile(std::string arr[], int n, const std::string& filename) {
-    // Открытие файла для чтения
-    std::ifstream file(filename);
+void saveNamesToFile(const std::string arr[], int n, const std::string& filename) {
+    // Открытие файла для записи
+    std::ofstream file(filename);
     if (file.is_open()) {
-        // Чтение имен из файла
-        for (int i = 0; i < n && !file.eof(); i++) {
-            getline(file, arr[i]);
+        // Запись имен в файл
+        for (int i = 0; i < n; i++) {
+            file << arr[i] << std::endl;
         }
         // Закрытие файла
         file.close();
-        std::cout << "Имена загружены из файла '" << filename << "'." << std::endl;
-    } else {
+        std::cout << "Имена сохранены в файле '" << filename << "'." << std::endl;
+    }
+    else {
         // В случае ошибки открытия файла
-        std::cerr << "Ошибка открытия файла для загрузки." << std::endl;
+        std::cerr << "Ошибка открытия файла для сохранения." << std::endl;
     }
 }
+
 
 int main() {
     // Установка кодировки для консоли (1251 - русская кодировка)
@@ -65,8 +64,7 @@ int main() {
         // Вывод меню
         std::cout << "\nМеню:\n";
         std::cout << "1. Вывести отсортированные имена\n";
-     
-        std::cout << "4. Выход\n";
+        std::cout << "2. Сохранить в файл\n";"
         std::cout << "Выберите действие: ";
         std::cin >> choice;
 
@@ -79,16 +77,18 @@ int main() {
                     std::cout << names[i] << std::endl;
                 }
                 break;
-           
-            
-            case 4:
+           case 2:
+            // Сохранение имен в файл
+            saveNamesToFile(names, numNames, "sorted_names.txt");
+            std::cout << "Имена сохранены в файле 'sorted_names.txt'." << std::endl;
+            case 3:
                 std::cout << "Выход из программы." << std::endl;
                 break;
             default:
                 std::cout << "Некорректный выбор. Пожалуйста, выберите снова." << std::endl;
         }
 
-    } while (choice != 4);
+    } while (choice != 3);
 
     // Освобождение выделенной памяти
     delete[] names;
